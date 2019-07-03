@@ -1,11 +1,11 @@
 package com.example.fightingtimer.ui.presets;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,10 +16,13 @@ import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.room.Room;
 
 import com.example.fightingtimer.PresetsDatabase;
 import com.example.fightingtimer.R;
+import com.example.fightingtimer.ui.timer.TimerFragment;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.List;
@@ -29,17 +32,32 @@ public class PresetsFragment extends Fragment {
     View root;
     PresetsDatabase database;
 
-    private void printSettings()
-    {
-        SettingDao settingDao = database.getAll();
-        Log.d("SETTINGS", "Just before all settings");
-        List<Setting> settings = settingDao.getAll();
-        for (Setting set : settings)
-        {
-            Log.d(Integer.toString(set.uid), set.name + " " + Integer.toString(set.rnd) + "/" + Integer.toString(set.brk));
-        }
-        Log.d("SETTINGS", "DONE");
+    UpdateCountdowns mCallback;
+
+    public interface UpdateCountdowns{
+        void updateCountdowns(final int rount_count, final int break_count);
     }
+
+    @Override
+    public void onAttach(Context context){
+        super.onAttach(context);
+        try {
+            mCallback = (UpdateCountdowns) context;
+        } catch (ClassCastException e){
+            throw new ClassCastException((context.toString() + " must implement UpdateCountdowns"));
+        }
+    }
+
+//    @Override
+//    public void onDetach(Activity activity)
+//    {
+//        super.onAttach(activity);
+//        try {
+//            mCallback = (UpdateCountdowns) activity;
+//        } catch (ClassCastException e){
+//            throw new ClassCastException((activity.toString() + " must implement UpdateCountdowns"));
+//        }
+//    }
 
     private void addPresetButton(final Setting setting)
     {
@@ -50,6 +68,17 @@ public class PresetsFragment extends Fragment {
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         ll.addView(new_preset, lp);
 
+        new_preset.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mCallback.updateCountdowns(setting.rnd, setting.brk);
+//                Fragment fragment = new TimerFragment();
+//                FragmentManager fm = getActivity().getSupportFragmentManager();
+//                FragmentTransaction transaction = fm.beginTransaction();
+//                transaction.replace(R.id.navigation_presets, fragment);
+//                transaction.commit();
+            }
+        });
         new_preset.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
@@ -155,6 +184,7 @@ public class PresetsFragment extends Fragment {
                 addPreset();
             }
         });
+
         return root;
     }
 }

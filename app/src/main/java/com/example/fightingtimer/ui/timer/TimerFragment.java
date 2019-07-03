@@ -18,9 +18,11 @@ public class TimerFragment extends Fragment {
     private CountDownTimer roundTimer;
     private CountDownTimer breakTimer;
     private CountDownTimer currentTimer;
-    final private long defaultRoundCountdown = 10000;
-    final private long defaultBreakCountdown = 5000;
-    final private long defaultCountdownTick = 1000;
+    final private int defaultRoundCountdown = 10000;
+    final private int defaultBreakCountdown = 5000;
+    final private int defaultCountdownTick = 1000;
+    private int roundCountdown = 0;
+    private int breakCountdown = 0;
 
     Button start_button;
     Button stop_button;
@@ -30,6 +32,42 @@ public class TimerFragment extends Fragment {
     TextView round_val_label;
     TextView break_val_label;
     TextView countdown_label;
+
+    private void newTimer(final int round_count, final int break_count)
+    {
+        roundTimer = new CountDownTimer(round_count, defaultCountdownTick) {
+            public void onTick ( long millisUntilFinished){
+                updateCountdownLabel(millisecondsToSecondsStr(millisUntilFinished));
+            }
+            public void onFinish () {
+                updateCountdownLabel(millisecondsToSecondsStr(defaultBreakCountdown));
+                currentTimer = breakTimer;
+                oneTickDelay();
+                currentTimer.start();
+                updateCurrentLabel(R.string.break_label);
+            }
+        };
+        breakTimer = new CountDownTimer(break_count, defaultCountdownTick) {
+            public void onTick ( long millisUntilFinished){
+                updateCountdownLabel(millisecondsToSecondsStr(millisUntilFinished));
+            }
+            public void onFinish () {
+                updateCountdownLabel(millisecondsToSecondsStr(round_count));
+                currentTimer = roundTimer;
+                oneTickDelay();
+                currentTimer.start();
+                updateCurrentLabel(R.string.round_label);
+            }
+        };
+    }
+
+    public void updateCountdowns(final int rount_count, final int break_count)
+    {
+        roundCountdown = rount_count;
+        breakCountdown = break_count;
+        currentTimer.cancel();
+        newTimer(roundCountdown, breakCountdown);
+    }
 
     private void setButtonVisibility(final int startb, final int stopb, final int pauseb, final int resumeb)
     {
@@ -70,7 +108,7 @@ public class TimerFragment extends Fragment {
     public void stopTimer(View view){
         setButtonVisibility(View.VISIBLE, View.INVISIBLE, View.INVISIBLE, View.INVISIBLE);
         currentTimer.cancel();
-        updateCountdownLabel(millisecondsToSecondsStr(defaultRoundCountdown));
+        updateCountdownLabel(millisecondsToSecondsStr(roundCountdown));
         countdown_label.setText("");
     }
 
@@ -99,30 +137,12 @@ public class TimerFragment extends Fragment {
         break_val_label = root.findViewById(R.id.Break_val);
         break_val_label.setText(millisecondsToSecondsStr(defaultBreakCountdown));
 
-        roundTimer = new CountDownTimer(defaultRoundCountdown, defaultCountdownTick) {
-            public void onTick ( long millisUntilFinished){
-                updateCountdownLabel(millisecondsToSecondsStr(millisUntilFinished));
-            }
-            public void onFinish () {
-                updateCountdownLabel(millisecondsToSecondsStr(defaultBreakCountdown));
-                currentTimer = breakTimer;
-                oneTickDelay();
-                currentTimer.start();
-                updateCurrentLabel(R.string.break_label);
-            }
-        };
-        breakTimer = new CountDownTimer(defaultBreakCountdown, defaultCountdownTick) {
-            public void onTick ( long millisUntilFinished){
-                updateCountdownLabel(millisecondsToSecondsStr(millisUntilFinished));
-            }
-            public void onFinish () {
-                updateCountdownLabel(millisecondsToSecondsStr(defaultRoundCountdown));
-                currentTimer = roundTimer;
-                oneTickDelay();
-                currentTimer.start();
-                updateCurrentLabel(R.string.round_label);
-            }
-        };
+        if (roundCountdown == 0 && breakCountdown == 0)
+        {
+            roundCountdown = defaultRoundCountdown;
+            breakCountdown = defaultBreakCountdown;
+        }
+        newTimer(roundCountdown, breakCountdown);
 
         currentTimer = roundTimer;
 
