@@ -11,4 +11,7 @@
     <string name="presets">Presets</string>
     <string name="add">Add</string>
     <string name="cancel">cancel</string>
+    <string name="remove_preset_question">Remove preset?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
 </resources>
