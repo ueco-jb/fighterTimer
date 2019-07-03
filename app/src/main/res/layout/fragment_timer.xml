@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/Start_b"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="36dp"
+        android:text="@string/start_button"
+        android:textSize="24sp"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="@+id/Stop_b"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/Pause_b"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="9dp"
+        android:layout_marginBottom="83dp"
+        android:text="@string/pause_button"
+        android:textSize="24sp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/Resume_b" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/Stop_b"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="84dp"
+        android:layout_marginEnd="82dp"
+        android:text="@string/stop_button"
+        android:textSize="24sp"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/Start_b"
+        app:layout_constraintTop_toTopOf="@+id/Resume_b" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/Countdown_l"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="37dp"
+        android:text="@string/countdown_label"
+        android:textAlignment="center"
+        android:textSize="36sp"
+        app:layout_constraintBottom_toTopOf="@+id/Start_b"
+        app:layout_constraintEnd_toEndOf="@+id/Stop_b" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/Resume_b"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="69dp"
+        android:layout_marginEnd="68dp"
+        android:text="@string/resume_button"
+        android:textSize="24sp"
+        android:visibility="invisible"
+        app:layout_constraintBaseline_toBaselineOf="@+id/Pause_b"
+        app:layout_constraintEnd_toEndOf="@+id/Start_b"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/Round_l"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="77dp"
+        android:text="@string/round_label"
+        android:textSize="30sp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/Round_val"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/Break_l"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/break_label"
+        android:textSize="30sp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/Break_val"
+        app:layout_constraintStart_toStartOf="@+id/Round_l" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/Round_val"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="37dp"
+        android:layout_marginTop="109dp"
+        android:textSize="30sp"
+        app:layout_constraintStart_toEndOf="@+id/Round_l"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/Current_state_l"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
+        android:layout_marginBottom="48dp"
+        android:textSize="30sp"
+        app:layout_constraintBottom_toTopOf="@+id/Countdown_l"
+        app:layout_constraintStart_toStartOf="@+id/Countdown_l" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/Break_val"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="35dp"
+        android:layout_marginEnd="2dp"
+        android:textSize="30sp"
+        app:layout_constraintEnd_toEndOf="@+id/Round_val"
+        app:layout_constraintTop_toBottomOf="@+id/Round_val" />
+</androidx.constraintlayout.widget.ConstraintLayout>
