@@ -8,11 +8,11 @@ import com.example.fightingtimer.ui.timer.TimerFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
-
 
 public class MainActivity extends AppCompatActivity implements PresetsFragment.UpdateCountdowns {
 
@@ -21,7 +21,27 @@ public class MainActivity extends AppCompatActivity implements PresetsFragment.U
     {
         Log.d("DuPA DUP DUP", "DSADADSADAD");
         TimerFragment timer = (TimerFragment)getSupportFragmentManager().findFragmentById(R.id.navigation_timer);
-        timer.updateCountdowns(round_time, break_time);
+        if (timer != null) {
+            Log.d("DuPA DUP DUP", ":)");
+            timer.updateCountdowns(round_time, break_time);
+        } else
+        {
+            Log.d("DuPA DUP DUP", ":(");
+
+//            timer = new TimerFragment();
+//            Bundle args = new Bundle();
+//            args.putInt(TimerFragment.)
+        }
+    }
+
+    @Override
+    public void onAttachFragment(Fragment fragment)
+    {
+        if (fragment instanceof PresetsFragment)
+        {
+            PresetsFragment presetsFragment = (PresetsFragment) fragment;
+            presetsFragment.setUpdateCountdowns(this);
+        }
     }
 
     @Override

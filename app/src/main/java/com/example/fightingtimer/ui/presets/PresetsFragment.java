@@ -32,7 +32,12 @@ public class PresetsFragment extends Fragment {
     View root;
     PresetsDatabase database;
 
-    UpdateCountdowns mCallback;
+    UpdateCountdowns callback;
+
+    public void setUpdateCountdowns(UpdateCountdowns callback)
+    {
+        this.callback = callback;
+    }
 
     public interface UpdateCountdowns{
         void updateCountdowns(final int rount_count, final int break_count);
@@ -42,22 +47,12 @@ public class PresetsFragment extends Fragment {
     public void onAttach(Context context){
         super.onAttach(context);
         try {
-            mCallback = (UpdateCountdowns) context;
+            callback = (UpdateCountdowns) context;
         } catch (ClassCastException e){
             throw new ClassCastException((context.toString() + " must implement UpdateCountdowns"));
         }
     }
 
-//    @Override
-//    public void onDetach(Activity activity)
-//    {
-//        super.onAttach(activity);
-//        try {
-//            mCallback = (UpdateCountdowns) activity;
-//        } catch (ClassCastException e){
-//            throw new ClassCastException((activity.toString() + " must implement UpdateCountdowns"));
-//        }
-//    }
 
     private void addPresetButton(final Setting setting)
     {
@@ -71,7 +66,7 @@ public class PresetsFragment extends Fragment {
         new_preset.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mCallback.updateCountdowns(setting.rnd, setting.brk);
+                callback.updateCountdowns(setting.rnd, setting.brk);
 //                Fragment fragment = new TimerFragment();
 //                FragmentManager fm = getActivity().getSupportFragmentManager();
 //                FragmentTransaction transaction = fm.beginTransaction();
