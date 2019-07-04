@@ -16,13 +16,10 @@ import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.room.Room;
 
 import com.example.fightingtimer.PresetsDatabase;
 import com.example.fightingtimer.R;
-import com.example.fightingtimer.ui.timer.TimerFragment;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.List;
@@ -67,11 +64,6 @@ public class PresetsFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 callback.updateCountdowns(setting.rnd, setting.brk);
-//                Fragment fragment = new TimerFragment();
-//                FragmentManager fm = getActivity().getSupportFragmentManager();
-//                FragmentTransaction transaction = fm.beginTransaction();
-//                transaction.replace(R.id.navigation_presets, fragment);
-//                transaction.commit();
             }
         });
         new_preset.setOnLongClickListener(new View.OnLongClickListener() {

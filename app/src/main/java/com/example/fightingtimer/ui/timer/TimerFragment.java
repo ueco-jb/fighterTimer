@@ -1,6 +1,7 @@
 package com.example.fightingtimer.ui.timer;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -125,6 +126,16 @@ public class TimerFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_timer, container, false);
+
+        Bundle bundle = this.getArguments();
+        Log.d("DuPA DUP DUP", "Created timer");
+
+        if (bundle != null)
+        {
+            Log.d("DuPA DUP DUP", "Got BUNDLE!!!");
+            roundCountdown = bundle.getInt("round_time_bundle");
+            breakCountdown = bundle.getInt("break_time_bundle");
+        }
 
         start_button = root.findViewById(R.id.Start_b);
         stop_button = root.findViewById(R.id.Stop_b);
