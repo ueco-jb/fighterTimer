@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -47,7 +48,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="32dp"
-        android:layout_marginBottom="37dp"
+        android:layout_marginBottom="36dp"
         android:text="@string/countdown_label"
         android:textAlignment="center"
         android:textSize="36sp"
@@ -65,17 +66,21 @@
         android:visibility="invisible"
         app:layout_constraintBaseline_toBaselineOf="@+id/Pause_b"
         app:layout_constraintEnd_toEndOf="@+id/Start_b"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/Round_l"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="77dp"
+        android:layout_marginStart="56dp"
+        android:layout_marginTop="109dp"
+        android:layout_marginBottom="131dp"
         android:text="@string/round_label"
         android:textSize="30sp"
-        app:layout_constraintBaseline_toBaselineOf="@+id/Round_val"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintBottom_toTopOf="@+id/progressBar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/Break_l"
@@ -100,8 +105,8 @@
         android:id="@+id/Current_state_l"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
-        android:layout_marginBottom="48dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginBottom="188dp"
         android:textSize="30sp"
         app:layout_constraintBottom_toTopOf="@+id/Countdown_l"
         app:layout_constraintStart_toStartOf="@+id/Countdown_l" />
@@ -115,4 +120,15 @@
         android:textSize="30sp"
         app:layout_constraintEnd_toEndOf="@+id/Round_val"
         app:layout_constraintTop_toBottomOf="@+id/Round_val" />
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="155dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="260dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/Round_l" />
 </androidx.constraintlayout.widget.ConstraintLayout>

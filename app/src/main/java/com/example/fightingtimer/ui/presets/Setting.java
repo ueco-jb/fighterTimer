@@ -18,4 +18,3 @@ public class Setting {
     @ColumnInfo(name = "break")
     public int brk;
 }
-

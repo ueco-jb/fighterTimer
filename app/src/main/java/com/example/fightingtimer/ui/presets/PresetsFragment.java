@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -125,9 +126,15 @@ public class PresetsFragment extends Fragment {
         add_button.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
+                EditText preset_name_input = dialog.findViewById(R.id.Preset_name_i);
+                String preset_name = preset_name_input.getText().toString();
                 EditText round_value_input = dialog.findViewById(R.id.Round_value_i);
                 EditText break_value_input = dialog.findViewById(R.id.Break_value_i);
-                addPreset("test name", edittextToInt(round_value_input), edittextToInt(break_value_input));
+                if (TextUtils.isEmpty(preset_name)){
+                    preset_name_input.setError(getResources().getString(R.string.field_cannot_be_empty));
+                    return;
+                }
+                addPreset(preset_name, edittextToInt(round_value_input), edittextToInt(break_value_input));
                 refreshPresets();
                 dialog.dismiss();
             }

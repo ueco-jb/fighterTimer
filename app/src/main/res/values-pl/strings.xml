@@ -15,4 +15,8 @@
     <string name="stop_button">Stop</string>
     <string name="timer">Stoper</string>
     <string name="yes">Tak</string>
+    <string name="round_time_dialog">Czas rundy</string>
+    <string name="break_time_dialog">Czas przerwy</string>
+    <string name="preset_name_dialog">Nazwa zapisu</string>
+    <string name="field_cannot_be_empty">To pole nie może być puste!</string>
 </resources>

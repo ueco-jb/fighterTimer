@@ -1,26 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/Add_preset_b"
         android:layout_width="100dp"
-        android:layout_height="99dp"
+        android:layout_height="100dp"
+        android:layout_marginBottom="60dp"
+        android:backgroundTint="#868B86"
         android:clickable="true"
-        app:layout_constraintBottom_toBottomOf="@+id/scrollView2"
+        app:fabCustomSize="100dip"
+        app:fabSize="auto"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.87"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:maxImageSize="80dp"
+        app:rippleColor="#FFFFFF"
         app:srcCompat="@android:drawable/ic_menu_add" />
 
     <ScrollView
         android:id="@+id/scrollView2"
         android:layout_width="411dp"
         android:layout_height="731dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -28,7 +35,7 @@
             android:id="@+id/Linear_preset_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"/>
+            android:orientation="vertical" />
     </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

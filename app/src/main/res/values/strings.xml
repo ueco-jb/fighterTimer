@@ -14,4 +14,8 @@
     <string name="remove_preset_question">Remove preset?</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
+    <string name="round_time_dialog">Round time</string>
+    <string name="break_time_dialog">Break time</string>
+    <string name="preset_name_dialog">Preset name</string>
+    <string name="field_cannot_be_empty">This field cannot be empty!</string>
 </resources>

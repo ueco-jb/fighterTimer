@@ -8,48 +8,103 @@
 
     <EditText
         android:id="@+id/Round_value_i"
-        android:layout_width="0dp"
-        android:layout_height="87dp"
-        android:layout_marginStart="50dp"
-        android:layout_marginEnd="42dp"
-        android:layout_marginBottom="171dp"
+        android:layout_width="75dp"
+        android:layout_height="62dp"
+        android:layout_marginStart="104dp"
+        android:layout_marginTop="66dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginBottom="65dp"
         android:ems="10"
         android:inputType="numberDecimal"
-        android:text="3"
         android:textAlignment="center"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/Add_b"
         app:layout_constraintEnd_toStartOf="@+id/Break_value_i"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/Preset_name_i"
+        app:layout_constraintVertical_bias="0.88" />
 
     <EditText
         android:id="@+id/Break_value_i"
-        android:layout_width="0dp"
-        android:layout_height="84dp"
-        android:layout_marginEnd="145dp"
+        android:layout_width="85dp"
+        android:layout_height="60dp"
+        android:layout_marginEnd="118dp"
+        android:layout_marginBottom="20dp"
         android:ems="10"
         android:inputType="numberDecimal"
-        android:text="4"
         android:textAlignment="center"
-        app:layout_constraintBaseline_toBaselineOf="@+id/Round_value_i"
+        app:layout_constraintBottom_toTopOf="@+id/Cancel_b"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/Round_value_i" />
+        app:layout_constraintStart_toEndOf="@+id/Round_value_i"
+        app:layout_constraintTop_toBottomOf="@+id/Preset_name_i" />
 
     <Button
         android:id="@+id/Add_b"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="50dp"
+        android:layout_marginEnd="13dp"
         android:text="@string/add"
         app:layout_constraintBaseline_toBaselineOf="@+id/Cancel_b"
+        app:layout_constraintEnd_toStartOf="@+id/Cancel_b"
+        app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/Cancel_b"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="36dp"
-        android:layout_marginBottom="55dp"
+        android:layout_marginEnd="14dp"
+        android:layout_marginBottom="324dp"
         android:text="@string/cancel"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/Add_b" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/Add_b"
+        app:layout_constraintTop_toBottomOf="@+id/Break_value_i" />
+
+    <EditText
+        android:id="@+id/Preset_name_i"
+        android:layout_width="191dp"
+        android:layout_height="69dp"
+        android:layout_marginTop="189dp"
+        android:layout_marginBottom="24dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toTopOf="@+id/Break_value_i"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="1dp"
+        android:layout_marginEnd="16dp"
+        android:text="@string/round_time_dialog"
+        app:layout_constraintEnd_toStartOf="@+id/textView2"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/Preset_name_i" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="1dp"
+        android:layout_marginEnd="20dp"
+        android:text="@string/break_time_dialog"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/textView"
+        app:layout_constraintTop_toBottomOf="@+id/Preset_name_i" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:text="@string/preset_name_dialog"
+        app:layout_constraintBottom_toTopOf="@+id/Preset_name_i"
+        app:layout_constraintEnd_toEndOf="@+id/Preset_name_i"
+        app:layout_constraintHorizontal_bias="0.414"
+        app:layout_constraintStart_toStartOf="@+id/Preset_name_i" />
 </androidx.constraintlayout.widget.ConstraintLayout>
