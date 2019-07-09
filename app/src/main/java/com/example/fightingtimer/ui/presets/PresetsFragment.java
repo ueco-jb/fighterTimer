@@ -1,12 +1,10 @@
 package com.example.fightingtimer.ui.presets;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +14,7 @@ import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 import androidx.room.Room;
 
 import com.example.fightingtimer.PresetsDatabase;
@@ -29,28 +28,6 @@ public class PresetsFragment extends Fragment {
     View root;
     PresetsDatabase database;
 
-    UpdateCountdowns callback;
-
-    public void setUpdateCountdowns(UpdateCountdowns callback)
-    {
-        this.callback = callback;
-    }
-
-    public interface UpdateCountdowns{
-        void updateCountdowns(final int rount_count, final int break_count);
-    }
-
-    @Override
-    public void onAttach(Context context){
-        super.onAttach(context);
-        try {
-            callback = (UpdateCountdowns) context;
-        } catch (ClassCastException e){
-            throw new ClassCastException((context.toString() + " must implement UpdateCountdowns"));
-        }
-    }
-
-
     private void addPresetButton(final Setting setting)
     {
         final Button new_preset = new Button(getActivity());
@@ -63,7 +40,10 @@ public class PresetsFragment extends Fragment {
         new_preset.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                callback.updateCountdowns(setting.rnd, setting.brk);
+                Bundle args = new Bundle();
+                args.putInt("round_time_bundle", setting.rnd*1000);
+                args.putInt("break_time_bundle", setting.brk*1000);
+                Navigation.findNavController(view).navigate(R.id.navigation_timer, args);
             }
         });
         new_preset.setOnLongClickListener(new View.OnLongClickListener() {

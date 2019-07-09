@@ -1,7 +1,6 @@
 package com.example.fightingtimer.ui.timer;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -128,13 +127,16 @@ public class TimerFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_timer, container, false);
 
         Bundle bundle = this.getArguments();
-        Log.d("DuPA DUP DUP", "Created timer");
-
         if (bundle != null)
         {
-            Log.d("DuPA DUP DUP", "Got BUNDLE!!!");
             roundCountdown = bundle.getInt("round_time_bundle");
             breakCountdown = bundle.getInt("break_time_bundle");
+        }
+
+        if (roundCountdown == 0 && breakCountdown == 0)
+        {
+            roundCountdown = defaultRoundCountdown;
+            breakCountdown = defaultBreakCountdown;
         }
 
         start_button = root.findViewById(R.id.Start_b);
@@ -144,15 +146,10 @@ public class TimerFragment extends Fragment {
 
         countdown_label = root.findViewById(R.id.Countdown_l);
         round_val_label = root.findViewById(R.id.Round_val);
-        round_val_label.setText(millisecondsToSecondsStr(defaultRoundCountdown));
+        round_val_label.setText(millisecondsToSecondsStr(roundCountdown));
         break_val_label = root.findViewById(R.id.Break_val);
-        break_val_label.setText(millisecondsToSecondsStr(defaultBreakCountdown));
+        break_val_label.setText(millisecondsToSecondsStr(breakCountdown));
 
-        if (roundCountdown == 0 && breakCountdown == 0)
-        {
-            roundCountdown = defaultRoundCountdown;
-            breakCountdown = defaultBreakCountdown;
-        }
         newTimer(roundCountdown, breakCountdown);
 
         currentTimer = roundTimer;
