@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -20,6 +21,7 @@ import java.util.concurrent.TimeUnit;
 
 public class TimerFragment extends Fragment {
     CurrentSettingDatabase database;
+    ProgressBar progressBar;
 
     private CountDownTimer roundTimer;
     private CountDownTimer breakTimer;
@@ -41,26 +43,40 @@ public class TimerFragment extends Fragment {
 
     private void newTimer()
     {
+
+
         roundTimer = new CountDownTimer(roundCountdown, defaultCountdownTick) {
+            public void onStart(){
+                progressBar.setMax(roundCountdown);
+                updateCountdownLabel(millisecondsToSecondsStr(roundCountdown));
+            }
             public void onTick ( long millisUntilFinished){
                 updateCountdownLabel(millisecondsToSecondsStr(millisUntilFinished));
+                progressBar.setProgress(roundCountdown-Math.toIntExact(millisUntilFinished));
             }
             public void onFinish () {
-                updateCountdownLabel(millisecondsToSecondsStr(breakCountdown));
+                updateCountdownLabel("0");
+                progressBar.setProgress(roundCountdown);
                 currentTimer = breakTimer;
-                oneTickDelay();
+//                oneTickDelay();
                 currentTimer.start();
                 updateCurrentLabel(R.string.break_label);
             }
         };
         breakTimer = new CountDownTimer(breakCountdown, defaultCountdownTick) {
+            public void onStart(){
+                progressBar.setMax(breakCountdown);
+                updateCountdownLabel(millisecondsToSecondsStr(breakCountdown));
+            }
             public void onTick ( long millisUntilFinished){
                 updateCountdownLabel(millisecondsToSecondsStr(millisUntilFinished));
+                progressBar.setProgress(breakCountdown-Math.toIntExact(millisUntilFinished));
             }
             public void onFinish () {
-                updateCountdownLabel(millisecondsToSecondsStr(roundCountdown));
+                updateCountdownLabel("0");
+                progressBar.setProgress(breakCountdown);
                 currentTimer = roundTimer;
-                oneTickDelay();
+//                oneTickDelay();
                 currentTimer.start();
                 updateCurrentLabel(R.string.round_label);
             }
@@ -139,6 +155,10 @@ public class TimerFragment extends Fragment {
             roundCountdown = currentSetting.rnd;
             breakCountdown = currentSetting.brk;
         }
+
+        progressBar = root.findViewById(R.id.progressBar);
+        progressBar.setIndeterminate(false);
+        progressBar.setProgress(0);
 
         start_button = root.findViewById(R.id.Start_b);
         stop_button = root.findViewById(R.id.Stop_b);

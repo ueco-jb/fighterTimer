@@ -90,6 +90,7 @@ public abstract class CountDownTimer {
      * Start the countdown.
      */
     public synchronized final CountDownTimer start() {
+        onStart();
         if (mMillisInFuture <= 0) {
             onFinish();
             return this;
@@ -130,6 +131,8 @@ public abstract class CountDownTimer {
      * Callback fired when the time is up.
      */
     public abstract void onFinish();
+
+    public abstract void onStart();
 
 
     private static final int MSG = 1;
