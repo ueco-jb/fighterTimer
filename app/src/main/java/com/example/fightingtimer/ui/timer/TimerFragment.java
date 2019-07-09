@@ -1,5 +1,6 @@
 package com.example.fightingtimer.ui.timer;
 
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -43,8 +44,6 @@ public class TimerFragment extends Fragment {
 
     private void newTimer()
     {
-
-
         roundTimer = new CountDownTimer(roundCountdown, defaultCountdownTick) {
             public void onStart(){
                 progressBar.setMax(roundCountdown);
@@ -57,10 +56,10 @@ public class TimerFragment extends Fragment {
             public void onFinish () {
                 updateCountdownLabel("0");
                 progressBar.setProgress(roundCountdown);
+                MediaPlayer.create(getActivity(), R.raw.boxingbell).start();
                 currentTimer = breakTimer;
-//                oneTickDelay();
                 currentTimer.start();
-                updateCurrentLabel(R.string.break_label);
+//                updateCurrentLabel(R.string.break_label);
             }
         };
         breakTimer = new CountDownTimer(breakCountdown, defaultCountdownTick) {
@@ -75,10 +74,10 @@ public class TimerFragment extends Fragment {
             public void onFinish () {
                 updateCountdownLabel("0");
                 progressBar.setProgress(breakCountdown);
+                MediaPlayer.create(getActivity(), R.raw.boxingbell).start();
                 currentTimer = roundTimer;
-//                oneTickDelay();
                 currentTimer.start();
-                updateCurrentLabel(R.string.round_label);
+//                updateCurrentLabel(R.string.round_label);
             }
         };
     }
