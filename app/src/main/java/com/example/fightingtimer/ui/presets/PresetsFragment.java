@@ -18,6 +18,7 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 import androidx.room.Room;
 
+import com.example.fightingtimer.CurrentSettingDatabase;
 import com.example.fightingtimer.PresetsDatabase;
 import com.example.fightingtimer.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -27,7 +28,8 @@ import java.util.List;
 public class PresetsFragment extends Fragment {
     FloatingActionButton add_preset_button;
     View root;
-    PresetsDatabase database;
+    PresetsDatabase presetsDatabase;
+    CurrentSettingDatabase currentSettingDatabase;
 
     private void addPresetButton(final Setting setting)
     {
@@ -41,10 +43,19 @@ public class PresetsFragment extends Fragment {
         new_preset.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Bundle args = new Bundle();
-                args.putInt("round_time_bundle", setting.rnd*1000);
-                args.putInt("break_time_bundle", setting.brk*1000);
-                Navigation.findNavController(view).navigate(R.id.navigation_timer, args);
+                CurrentSettingDao currentSettingDao = currentSettingDatabase.get();
+                CurrentSetting currentSetting = currentSettingDao.get();
+                if (currentSetting == null) {
+                    currentSetting.rnd = setting.rnd*1000;
+                    currentSetting.brk = setting.brk*1000;
+                    currentSettingDao.insert(currentSetting);
+                }
+                else {
+                    currentSetting.rnd = setting.rnd*1000;
+                    currentSetting.brk = setting.brk*1000;
+                    currentSettingDao.update(currentSetting);
+                }
+                Navigation.findNavController(view).navigate(R.id.navigation_timer);
             }
         });
         new_preset.setOnLongClickListener(new View.OnLongClickListener() {
@@ -56,7 +67,7 @@ public class PresetsFragment extends Fragment {
                 remove_dialog.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        SettingDao settingDao = database.getAll();
+                        SettingDao settingDao = presetsDatabase.getAll();
                         settingDao.delete(setting);
                         new_preset.setVisibility(View.GONE);
                     }
@@ -76,7 +87,7 @@ public class PresetsFragment extends Fragment {
 
     private void addPreset(final String name, final int round_val, final int break_val)
     {
-        SettingDao settingDao = database.getAll();
+        SettingDao settingDao = presetsDatabase.getAll();
         Setting setting = new Setting();
         setting.name = name;
         setting.rnd = round_val;
@@ -86,7 +97,7 @@ public class PresetsFragment extends Fragment {
 
     private void refreshPresets()
     {
-        SettingDao settingDao = database.getAll();
+        SettingDao settingDao = presetsDatabase.getAll();
         List<Setting> settings = settingDao.getAll();
         for (Setting set : settings)
         {
@@ -146,10 +157,13 @@ public class PresetsFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         root = inflater.inflate(R.layout.fragment_presets, container, false);
-        database = Room.databaseBuilder(getActivity(), PresetsDatabase.class, "presetsdb")
+        presetsDatabase = Room.databaseBuilder(getActivity(), PresetsDatabase.class, "presetsdb")
                 .allowMainThreadQueries()
                 .build();
         refreshPresets();
+        currentSettingDatabase = Room.databaseBuilder(getActivity(), CurrentSettingDatabase.class, "currentsettingdb")
+                .allowMainThreadQueries()
+                .build();
 
         add_preset_button = root.findViewById(R.id.Add_preset_b);
         add_preset_button.setOnClickListener(new View.OnClickListener(){

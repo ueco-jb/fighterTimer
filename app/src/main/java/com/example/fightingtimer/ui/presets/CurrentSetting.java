@@ -5,12 +5,9 @@ import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 @Entity
-public class Setting {
+public class CurrentSetting {
     @PrimaryKey(autoGenerate = true)
     public int uid;
-
-    @ColumnInfo(name = "name")
-    public String name;
 
     @ColumnInfo(name = "round")
     public int rnd;

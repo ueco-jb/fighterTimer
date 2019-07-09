@@ -9,12 +9,18 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.room.Room;
 
+import com.example.fightingtimer.CurrentSettingDatabase;
 import com.example.fightingtimer.R;
+import com.example.fightingtimer.ui.presets.CurrentSetting;
+import com.example.fightingtimer.ui.presets.CurrentSettingDao;
 
 import java.util.concurrent.TimeUnit;
 
 public class TimerFragment extends Fragment {
+    CurrentSettingDatabase database;
+
     private CountDownTimer roundTimer;
     private CountDownTimer breakTimer;
     private CountDownTimer currentTimer;
@@ -33,40 +39,32 @@ public class TimerFragment extends Fragment {
     TextView break_val_label;
     TextView countdown_label;
 
-    private void newTimer(final int round_count, final int break_count)
+    private void newTimer()
     {
-        roundTimer = new CountDownTimer(round_count, defaultCountdownTick) {
+        roundTimer = new CountDownTimer(roundCountdown, defaultCountdownTick) {
             public void onTick ( long millisUntilFinished){
                 updateCountdownLabel(millisecondsToSecondsStr(millisUntilFinished));
             }
             public void onFinish () {
-                updateCountdownLabel(millisecondsToSecondsStr(defaultBreakCountdown));
+                updateCountdownLabel(millisecondsToSecondsStr(breakCountdown));
                 currentTimer = breakTimer;
                 oneTickDelay();
                 currentTimer.start();
                 updateCurrentLabel(R.string.break_label);
             }
         };
-        breakTimer = new CountDownTimer(break_count, defaultCountdownTick) {
+        breakTimer = new CountDownTimer(breakCountdown, defaultCountdownTick) {
             public void onTick ( long millisUntilFinished){
                 updateCountdownLabel(millisecondsToSecondsStr(millisUntilFinished));
             }
             public void onFinish () {
-                updateCountdownLabel(millisecondsToSecondsStr(round_count));
+                updateCountdownLabel(millisecondsToSecondsStr(roundCountdown));
                 currentTimer = roundTimer;
                 oneTickDelay();
                 currentTimer.start();
                 updateCurrentLabel(R.string.round_label);
             }
         };
-    }
-
-    public void updateCountdowns(final int rount_count, final int break_count)
-    {
-        roundCountdown = rount_count;
-        breakCountdown = break_count;
-        currentTimer.cancel();
-        newTimer(roundCountdown, breakCountdown);
     }
 
     private void setButtonVisibility(final int startb, final int stopb, final int pauseb, final int resumeb)
@@ -125,18 +123,21 @@ public class TimerFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_timer, container, false);
+        database = Room.databaseBuilder(getActivity(), CurrentSettingDatabase.class, "currentsettingdb")
+                .allowMainThreadQueries()
+                .build();
 
-        Bundle bundle = this.getArguments();
-        if (bundle != null)
-        {
-            roundCountdown = bundle.getInt("round_time_bundle");
-            breakCountdown = bundle.getInt("break_time_bundle");
+        CurrentSettingDao currentSettingDao = database.get();
+        CurrentSetting currentSetting = currentSettingDao.get();
+        if (currentSetting == null) {
+            currentSetting = new CurrentSetting();
+            currentSetting.rnd = defaultRoundCountdown;
+            currentSetting.brk = defaultBreakCountdown;
+            currentSettingDao.insert(currentSetting);
         }
-
-        if (roundCountdown == 0 && breakCountdown == 0)
-        {
-            roundCountdown = defaultRoundCountdown;
-            breakCountdown = defaultBreakCountdown;
+        else {
+            roundCountdown = currentSetting.rnd;
+            breakCountdown = currentSetting.brk;
         }
 
         start_button = root.findViewById(R.id.Start_b);
@@ -150,7 +151,7 @@ public class TimerFragment extends Fragment {
         break_val_label = root.findViewById(R.id.Break_val);
         break_val_label.setText(millisecondsToSecondsStr(breakCountdown));
 
-        newTimer(roundCountdown, breakCountdown);
+        newTimer();
 
         currentTimer = roundTimer;
 
