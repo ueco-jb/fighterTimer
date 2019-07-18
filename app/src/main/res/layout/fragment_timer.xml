@@ -47,13 +47,15 @@
         android:id="@+id/Countdown_l"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="32dp"
+        android:layout_marginStart="112dp"
+        android:layout_marginEnd="115dp"
         android:layout_marginBottom="36dp"
         android:text="@string/countdown_label"
         android:textAlignment="center"
         android:textSize="36sp"
         app:layout_constraintBottom_toTopOf="@+id/Start_b"
-        app:layout_constraintEnd_toEndOf="@+id/Stop_b" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/Resume_b"
@@ -98,16 +100,6 @@
         android:textSize="30sp"
         app:layout_constraintStart_toEndOf="@+id/Round_l"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/Current_state_l"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginBottom="188dp"
-        android:textSize="30sp"
-        app:layout_constraintBottom_toTopOf="@+id/Countdown_l"
-        app:layout_constraintStart_toStartOf="@+id/Countdown_l" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/Break_val"

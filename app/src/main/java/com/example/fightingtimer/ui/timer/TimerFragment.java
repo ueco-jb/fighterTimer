@@ -1,5 +1,6 @@
 package com.example.fightingtimer.ui.timer;
 
+import android.graphics.Typeface;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -37,7 +38,9 @@ public class TimerFragment extends Fragment {
     Button pause_button;
     Button resume_button;
 
+    TextView round_label;
     TextView round_val_label;
+    TextView break_label;
     TextView break_val_label;
     TextView countdown_label;
 
@@ -45,6 +48,14 @@ public class TimerFragment extends Fragment {
         progressBar.setProgress(0);
         currentProgress = 0;
         progressBar.setMax(newMax + defaultCountdownTick);
+    }
+
+    private void setFontBold(TextView textView){
+        textView.setTypeface(null, Typeface.BOLD);
+    }
+
+    private void setFontNormal(TextView textView){
+        textView.setTypeface(null, Typeface.NORMAL);
     }
 
     private void newTimer(){
@@ -59,9 +70,14 @@ public class TimerFragment extends Fragment {
                 MediaPlayer.create(getActivity(), R.raw.boxingbell).start();
                 currentTimer = breakTimer;
                 currentTimer.startTimer();
-                updateCurrentLabel(R.string.break_label);
+                setFontNormal(round_label);
+                setFontNormal(round_val_label);
+                setFontBold(break_label);
+                setFontBold(break_val_label);
             }
             public void onTimerCancel(){
+                setFontNormal(round_label);
+                setFontNormal(round_val_label);
                 setNewProgress(roundCountdown);
             }
         };
@@ -75,10 +91,15 @@ public class TimerFragment extends Fragment {
                 MediaPlayer.create(getActivity(), R.raw.boxingbell).start();
                 currentTimer = roundTimer;
                 currentTimer.startTimer();
-                updateCurrentLabel(R.string.round_label);
+                setFontNormal(break_label);
+                setFontNormal(break_val_label);
+                setFontBold(round_label);
+                setFontBold(round_val_label);
             }
             public void onTimerCancel(){
                 setNewProgress(roundCountdown);
+                setFontNormal(break_label);
+                setFontNormal(break_val_label);
             }
         };
     }
@@ -91,8 +112,7 @@ public class TimerFragment extends Fragment {
         resume_button.setVisibility(resumeb);
     }
 
-    private String millisecondsToSecondsStr(final long milliseconds)
-    {
+    private String millisecondsToSecondsStr(final long milliseconds){
         return Long.toString(milliseconds/defaultCountdownTick);
     }
 
@@ -100,21 +120,17 @@ public class TimerFragment extends Fragment {
         countdown_label.setText(updated);
     }
 
-    private void updateCurrentLabel(int updated){
-        countdown_label.setText(updated);
-    }
-
     public void startTimer(View view){
         setButtonVisibility(View.INVISIBLE, View.VISIBLE, View.VISIBLE, View.INVISIBLE);
         currentTimer.startTimer();
-        updateCurrentLabel(R.string.round_label);
+        setFontBold(round_label);
+        setFontBold(round_val_label);
     }
 
     public void stopTimer(View view){
         setButtonVisibility(View.VISIBLE, View.INVISIBLE, View.INVISIBLE, View.INVISIBLE);
         currentTimer.cancelTimer();
         updateCountdownLabel(millisecondsToSecondsStr(roundCountdown));
-        countdown_label.setText("");
     }
 
     public void pauseTimer(View view){
@@ -157,8 +173,10 @@ public class TimerFragment extends Fragment {
         resume_button = root.findViewById(R.id.Resume_b);
 
         countdown_label = root.findViewById(R.id.Countdown_l);
+        round_label = root.findViewById(R.id.Round_l);
         round_val_label = root.findViewById(R.id.Round_val);
         round_val_label.setText(millisecondsToSecondsStr(roundCountdown));
+        break_label = root.findViewById(R.id.Break_l);
         break_val_label = root.findViewById(R.id.Break_val);
         break_val_label.setText(millisecondsToSecondsStr(breakCountdown));
 
