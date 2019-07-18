@@ -30,6 +30,7 @@ public class TimerFragment extends Fragment {
     final private int defaultCountdownTick = 1000;
     private int roundCountdown = 0;
     private int breakCountdown = 0;
+    private int currentProgress = 0;
 
     Button start_button;
     Button stop_button;
@@ -40,38 +41,44 @@ public class TimerFragment extends Fragment {
     TextView break_val_label;
     TextView countdown_label;
 
-    private void newTimer()
-    {
+    private void setNewProgress(final int newMax){
+        progressBar.setProgress(0);
+        currentProgress = 0;
+        progressBar.setMax(newMax + defaultCountdownTick);
+    }
+
+    private void newTimer(){
+        setNewProgress(roundCountdown);
         roundTimer = new Hourglass(roundCountdown, defaultCountdownTick) {
             public void onTimerTick ( long millisUntilFinished){
                 updateCountdownLabel(millisecondsToSecondsStr(millisUntilFinished));
-                progressBar.setProgress(roundCountdown-Math.toIntExact(millisUntilFinished));
+                progressBar.setProgress(currentProgress+=defaultCountdownTick);
             }
             public void onTimerFinish () {
-                progressBar.setProgress(roundCountdown);
+                setNewProgress(breakCountdown);
                 MediaPlayer.create(getActivity(), R.raw.boxingbell).start();
                 currentTimer = breakTimer;
                 currentTimer.startTimer();
                 updateCurrentLabel(R.string.break_label);
             }
             public void onTimerCancel(){
-
+                setNewProgress(roundCountdown);
             }
         };
         breakTimer = new Hourglass(breakCountdown, defaultCountdownTick) {
             public void onTimerTick ( long millisUntilFinished){
                 updateCountdownLabel(millisecondsToSecondsStr(millisUntilFinished));
-                progressBar.setProgress(breakCountdown-Math.toIntExact(millisUntilFinished));
+                progressBar.setProgress(currentProgress+=defaultCountdownTick);
             }
             public void onTimerFinish () {
-                progressBar.setProgress(breakCountdown);
+                setNewProgress(roundCountdown);
                 MediaPlayer.create(getActivity(), R.raw.boxingbell).start();
                 currentTimer = roundTimer;
                 currentTimer.startTimer();
                 updateCurrentLabel(R.string.round_label);
             }
             public void onTimerCancel(){
-
+                setNewProgress(roundCountdown);
             }
         };
     }
