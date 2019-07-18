@@ -54,4 +54,5 @@ dependencies {
 
     // Test helpers
     testImplementation "androidx.room:room-testing:$room_version"
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
 }

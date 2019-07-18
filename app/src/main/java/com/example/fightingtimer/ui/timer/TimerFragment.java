@@ -18,15 +18,13 @@ import com.example.fightingtimer.R;
 import com.example.fightingtimer.ui.presets.CurrentSetting;
 import com.example.fightingtimer.ui.presets.CurrentSettingDao;
 
-import java.util.concurrent.TimeUnit;
-
 public class TimerFragment extends Fragment {
     CurrentSettingDatabase database;
     ProgressBar progressBar;
 
-    private CountDownTimer roundTimer;
-    private CountDownTimer breakTimer;
-    private CountDownTimer currentTimer;
+    private Hourglass roundTimer;
+    private Hourglass breakTimer;
+    private Hourglass currentTimer;
     final private int defaultRoundCountdown = 10000;
     final private int defaultBreakCountdown = 5000;
     final private int defaultCountdownTick = 1000;
@@ -44,40 +42,36 @@ public class TimerFragment extends Fragment {
 
     private void newTimer()
     {
-        roundTimer = new CountDownTimer(roundCountdown, defaultCountdownTick) {
-            public void onStart(){
-                progressBar.setMax(roundCountdown);
-                updateCountdownLabel(millisecondsToSecondsStr(roundCountdown));
-            }
-            public void onTick ( long millisUntilFinished){
+        roundTimer = new Hourglass(roundCountdown, defaultCountdownTick) {
+            public void onTimerTick ( long millisUntilFinished){
                 updateCountdownLabel(millisecondsToSecondsStr(millisUntilFinished));
                 progressBar.setProgress(roundCountdown-Math.toIntExact(millisUntilFinished));
             }
-            public void onFinish () {
-                updateCountdownLabel("0");
+            public void onTimerFinish () {
                 progressBar.setProgress(roundCountdown);
                 MediaPlayer.create(getActivity(), R.raw.boxingbell).start();
                 currentTimer = breakTimer;
-                currentTimer.start();
-//                updateCurrentLabel(R.string.break_label);
+                currentTimer.startTimer();
+                updateCurrentLabel(R.string.break_label);
+            }
+            public void onTimerCancel(){
+
             }
         };
-        breakTimer = new CountDownTimer(breakCountdown, defaultCountdownTick) {
-            public void onStart(){
-                progressBar.setMax(breakCountdown);
-                updateCountdownLabel(millisecondsToSecondsStr(breakCountdown));
-            }
-            public void onTick ( long millisUntilFinished){
+        breakTimer = new Hourglass(breakCountdown, defaultCountdownTick) {
+            public void onTimerTick ( long millisUntilFinished){
                 updateCountdownLabel(millisecondsToSecondsStr(millisUntilFinished));
                 progressBar.setProgress(breakCountdown-Math.toIntExact(millisUntilFinished));
             }
-            public void onFinish () {
-                updateCountdownLabel("0");
+            public void onTimerFinish () {
                 progressBar.setProgress(breakCountdown);
                 MediaPlayer.create(getActivity(), R.raw.boxingbell).start();
                 currentTimer = roundTimer;
-                currentTimer.start();
-//                updateCurrentLabel(R.string.round_label);
+                currentTimer.startTimer();
+                updateCurrentLabel(R.string.round_label);
+            }
+            public void onTimerCancel(){
+
             }
         };
     }
@@ -95,15 +89,6 @@ public class TimerFragment extends Fragment {
         return Long.toString(milliseconds/defaultCountdownTick);
     }
 
-    private void oneTickDelay(){
-        try {
-            TimeUnit.MILLISECONDS.sleep(defaultCountdownTick);
-        } catch (InterruptedException e)
-        {
-            e.printStackTrace();
-        }
-    }
-
     private void updateCountdownLabel(String updated){
         countdown_label.setText(updated);
     }
@@ -114,25 +99,25 @@ public class TimerFragment extends Fragment {
 
     public void startTimer(View view){
         setButtonVisibility(View.INVISIBLE, View.VISIBLE, View.VISIBLE, View.INVISIBLE);
-        currentTimer.start();
+        currentTimer.startTimer();
         updateCurrentLabel(R.string.round_label);
     }
 
     public void stopTimer(View view){
         setButtonVisibility(View.VISIBLE, View.INVISIBLE, View.INVISIBLE, View.INVISIBLE);
-        currentTimer.cancel();
+        currentTimer.cancelTimer();
         updateCountdownLabel(millisecondsToSecondsStr(roundCountdown));
         countdown_label.setText("");
     }
 
     public void pauseTimer(View view){
         setButtonVisibility(View.INVISIBLE, View.VISIBLE, View.INVISIBLE, View.VISIBLE);
-        currentTimer.pause();
+        currentTimer.pauseTimer();
     }
 
     public void resumeTimer(View view){
         setButtonVisibility(View.INVISIBLE, View.VISIBLE, View.VISIBLE, View.INVISIBLE);
-        currentTimer.resume();
+        currentTimer.resumeTimer();
     }
 
     public View onCreateView(@NonNull LayoutInflater inflater,
