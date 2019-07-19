@@ -158,10 +158,8 @@ public class TimerFragment extends Fragment {
             currentSetting.brk = defaultBreakCountdown;
             currentSettingDao.insert(currentSetting);
         }
-        else {
-            roundCountdown = currentSetting.rnd;
-            breakCountdown = currentSetting.brk;
-        }
+        roundCountdown = currentSetting.rnd;
+        breakCountdown = currentSetting.brk;
 
         progressBar = root.findViewById(R.id.progressBar);
         progressBar.setIndeterminate(false);

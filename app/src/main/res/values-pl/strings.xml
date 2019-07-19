@@ -19,4 +19,6 @@
     <string name="break_time_dialog">Czas przerwy</string>
     <string name="preset_name_dialog">Nazwa zapisu</string>
     <string name="field_cannot_be_empty">To pole nie może być puste!</string>
+    <string name="add_preset_to_use_timer">Najpierw stwórz nowy zapis!</string>
+    <string name="value_zero">Ta wartość nie może być 0!</string>
 </resources>

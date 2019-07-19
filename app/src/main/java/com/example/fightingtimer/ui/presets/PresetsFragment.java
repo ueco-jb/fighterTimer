@@ -85,8 +85,7 @@ public class PresetsFragment extends Fragment {
         });
     }
 
-    private void addPreset(final String name, final int round_val, final int break_val)
-    {
+    private void addPreset(final String name, final int round_val, final int break_val){
         SettingDao settingDao = presetsDatabase.getAll();
         Setting setting = new Setting();
         setting.name = name;
@@ -95,27 +94,22 @@ public class PresetsFragment extends Fragment {
         settingDao.insert(setting);
     }
 
-    private void refreshPresets()
-    {
+    private void refreshPresets(){
         SettingDao settingDao = presetsDatabase.getAll();
         List<Setting> settings = settingDao.getAll();
-        for (Setting set : settings)
-        {
-            if (root.findViewById(set.uid) == null)
-            {
+        for (Setting set : settings){
+            if (root.findViewById(set.uid) == null){
                 addPresetButton(set);
             }
         }
     }
 
-    private int edittextToInt(final EditText val)
-    {
+    private int edittextToInt(final EditText val){
         String valstr = val.getText().toString();
         return Integer.parseInt(valstr);
     }
 
-    private void addPreset()
-    {
+    private void addPreset(){
         final Context context = getActivity();
         if (context == null) {
             return;
@@ -140,9 +134,27 @@ public class PresetsFragment extends Fragment {
                 EditText preset_name_input = dialog.findViewById(R.id.Preset_name_i);
                 String preset_name = preset_name_input.getText().toString();
                 EditText round_value_input = dialog.findViewById(R.id.Round_value_i);
+                String round_value = round_value_input.getText().toString();
                 EditText break_value_input = dialog.findViewById(R.id.Break_value_i);
+                String break_value = break_value_input.getText().toString();
                 if (TextUtils.isEmpty(preset_name)){
                     preset_name_input.setError(getResources().getString(R.string.field_cannot_be_empty));
+                    return;
+                }
+                else if (TextUtils.isEmpty(round_value)){
+                    round_value_input.setError(getResources().getString(R.string.field_cannot_be_empty));
+                    return;
+                }
+                else if (TextUtils.equals(round_value, "0")){
+                    round_value_input.setError(getResources().getString(R.string.value_zero));
+                    return;
+                }
+                else if (TextUtils.isEmpty(break_value)){
+                    break_value_input.setError(getResources().getString(R.string.field_cannot_be_empty));
+                    return;
+                }
+                else if (TextUtils.equals(break_value, "0")){
+                    break_value_input.setError(getResources().getString(R.string.value_zero));
                     return;
                 }
                 addPreset(preset_name, edittextToInt(round_value_input), edittextToInt(break_value_input));
