@@ -174,7 +174,7 @@ public abstract class Hourglass implements HourglassListener {
      * @return remaining time
      */
     public long getRemainingTime() {
-        if(isRunning) {
+        if (isRunning) {
             return this.time;
         }
 

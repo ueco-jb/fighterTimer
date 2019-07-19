@@ -44,28 +44,29 @@ public class TimerFragment extends Fragment {
     TextView break_val_label;
     TextView countdown_label;
 
-    private void setNewProgress(final int newMax){
+    private void setNewProgress(final int newMax) {
         progressBar.setProgress(0);
         currentProgress = 0;
         progressBar.setMax(newMax + defaultCountdownTick);
     }
 
-    private void setFontBold(TextView textView){
+    private void setFontBold(TextView textView) {
         textView.setTypeface(null, Typeface.BOLD);
     }
 
-    private void setFontNormal(TextView textView){
+    private void setFontNormal(TextView textView) {
         textView.setTypeface(null, Typeface.NORMAL);
     }
 
-    private void newTimer(){
+    private void newTimer() {
         setNewProgress(roundCountdown);
         roundTimer = new Hourglass(roundCountdown, defaultCountdownTick) {
-            public void onTimerTick ( long millisUntilFinished){
+            public void onTimerTick(long millisUntilFinished) {
                 updateCountdownLabel(millisecondsToSecondsStr(millisUntilFinished));
-                progressBar.setProgress(currentProgress+=defaultCountdownTick);
+                progressBar.setProgress(currentProgress += defaultCountdownTick);
             }
-            public void onTimerFinish () {
+
+            public void onTimerFinish() {
                 setNewProgress(breakCountdown);
                 MediaPlayer.create(getActivity(), R.raw.boxingbell).start();
                 currentTimer = breakTimer;
@@ -75,18 +76,20 @@ public class TimerFragment extends Fragment {
                 setFontBold(break_label);
                 setFontBold(break_val_label);
             }
-            public void onTimerCancel(){
+
+            public void onTimerCancel() {
                 setFontNormal(round_label);
                 setFontNormal(round_val_label);
                 setNewProgress(roundCountdown);
             }
         };
         breakTimer = new Hourglass(breakCountdown, defaultCountdownTick) {
-            public void onTimerTick ( long millisUntilFinished){
+            public void onTimerTick(long millisUntilFinished) {
                 updateCountdownLabel(millisecondsToSecondsStr(millisUntilFinished));
-                progressBar.setProgress(currentProgress+=defaultCountdownTick);
+                progressBar.setProgress(currentProgress += defaultCountdownTick);
             }
-            public void onTimerFinish () {
+
+            public void onTimerFinish() {
                 setNewProgress(roundCountdown);
                 MediaPlayer.create(getActivity(), R.raw.boxingbell).start();
                 currentTimer = roundTimer;
@@ -96,7 +99,8 @@ public class TimerFragment extends Fragment {
                 setFontBold(round_label);
                 setFontBold(round_val_label);
             }
-            public void onTimerCancel(){
+
+            public void onTimerCancel() {
                 setNewProgress(roundCountdown);
                 setFontNormal(break_label);
                 setFontNormal(break_val_label);
@@ -104,41 +108,40 @@ public class TimerFragment extends Fragment {
         };
     }
 
-    private void setButtonVisibility(final int startb, final int stopb, final int pauseb, final int resumeb)
-    {
+    private void setButtonVisibility(final int startb, final int stopb, final int pauseb, final int resumeb) {
         start_button.setVisibility(startb);
         stop_button.setVisibility(stopb);
         pause_button.setVisibility(pauseb);
         resume_button.setVisibility(resumeb);
     }
 
-    private String millisecondsToSecondsStr(final long milliseconds){
-        return Long.toString(milliseconds/defaultCountdownTick);
+    private String millisecondsToSecondsStr(final long milliseconds) {
+        return Long.toString(milliseconds / defaultCountdownTick);
     }
 
-    private void updateCountdownLabel(String updated){
+    private void updateCountdownLabel(String updated) {
         countdown_label.setText(updated);
     }
 
-    public void startTimer(View view){
+    public void startTimer(View view) {
         setButtonVisibility(View.INVISIBLE, View.VISIBLE, View.VISIBLE, View.INVISIBLE);
         currentTimer.startTimer();
         setFontBold(round_label);
         setFontBold(round_val_label);
     }
 
-    public void stopTimer(View view){
+    public void stopTimer(View view) {
         setButtonVisibility(View.VISIBLE, View.INVISIBLE, View.INVISIBLE, View.INVISIBLE);
         currentTimer.cancelTimer();
         updateCountdownLabel(millisecondsToSecondsStr(roundCountdown));
     }
 
-    public void pauseTimer(View view){
+    public void pauseTimer(View view) {
         setButtonVisibility(View.INVISIBLE, View.VISIBLE, View.INVISIBLE, View.VISIBLE);
         currentTimer.pauseTimer();
     }
 
-    public void resumeTimer(View view){
+    public void resumeTimer(View view) {
         setButtonVisibility(View.INVISIBLE, View.VISIBLE, View.VISIBLE, View.INVISIBLE);
         currentTimer.resumeTimer();
     }
@@ -182,27 +185,27 @@ public class TimerFragment extends Fragment {
 
         currentTimer = roundTimer;
 
-        start_button.setOnClickListener(new View.OnClickListener(){
+        start_button.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v){
+            public void onClick(View v) {
                 startTimer(v);
             }
         });
-        stop_button.setOnClickListener(new View.OnClickListener(){
+        stop_button.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v){
+            public void onClick(View v) {
                 stopTimer(v);
             }
         });
-        pause_button.setOnClickListener(new View.OnClickListener(){
+        pause_button.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v){
+            public void onClick(View v) {
                 pauseTimer(v);
             }
         });
-        resume_button.setOnClickListener(new View.OnClickListener(){
+        resume_button.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v){
+            public void onClick(View v) {
                 resumeTimer(v);
             }
         });

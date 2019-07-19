@@ -10,7 +10,7 @@
     <string name="presets">Zapisane</string>
     <string name="remove_preset_question">Usunąć zapis?</string>
     <string name="resume_button">Wznów</string>
-    <string name="round_label">Runds</string>
+    <string name="round_label">Runda</string>
     <string name="start_button">Start</string>
     <string name="stop_button">Stop</string>
     <string name="timer">Stoper</string>
